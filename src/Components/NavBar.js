@@ -1,11 +1,20 @@
 import React from "react";
 import { Container, Col, Row } from "react-bootstrap";
 import logo from "../Images/logo.png";
+import { useDispatch } from "react-redux";
+import { GetAllMovies, SearchMovies } from "../Redux/Actions/MoviesAction";
 
-const NavBar = ({ search }) => {
-  const onSearch = (word) => {
-    search(word);
+const NavBar = () => {
+  const dispatch = useDispatch();
+
+  const search = async (query) => {
+    if (query === "") {
+      dispatch(GetAllMovies());
+    } else {
+      dispatch(SearchMovies(query));
+    }
   };
+
   return (
     <div className="nav-style w-100">
       <Container>
@@ -19,7 +28,7 @@ const NavBar = ({ search }) => {
             <div className="search  w-100">
               <i className="fa fa-search"></i>
               <input
-                onChange={(e) => onSearch(e.target.value)}
+                onChange={(e) => search(e.target.value)}
                 type="text"
                 className="form-control"
                 placeholder="ابحث"
